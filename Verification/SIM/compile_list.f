@@ -1,4 +1,4 @@
-/home/sgeuser100/renuka_dv/Old_RTL_Async_FIFO/RTL/async_fifo_int_mem.sv
+/home/sgeuser100/renuka_dv/Old_RTL_Async_FIFO/RTL/async_fifo.sv
 /home/sgeuser100/renuka_dv/Old_RTL_Async_FIFO/RTL/fifo_mem.sv
 /home/sgeuser100/renuka_dv/Old_RTL_Async_FIFO/RTL/rd_ndff_synch.sv
 /home/sgeuser100/renuka_dv/Old_RTL_Async_FIFO/RTL/rptr_empty.sv

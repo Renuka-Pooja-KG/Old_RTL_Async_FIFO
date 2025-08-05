@@ -337,7 +337,8 @@ class scoreboard extends uvm_scoreboard;
         
         // Underflow logic with 1-clock delay: underflow goes high in next clock after rdempty=1, read_enable=1, wr_level=0
         // Use actual RTL state for more accurate underflow detection
-        bit effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
+        bit effective_prev_rdempty;
+        effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
         if (effective_prev_rdempty && prev_read_enable && prev_wr_level_0) begin
             expected_underflow = 1'b1;
         end else begin
@@ -379,7 +380,8 @@ class scoreboard extends uvm_scoreboard;
         // Check read transaction
         if (read_tr.read_enable && !reset_active) begin
             // Check for underflow with 1-clock delay behavior
-            bit effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
+            bit effective_prev_rdempty;
+            effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
             `uvm_info(get_type_name(), $sformatf("Underflow check: expected=%b, actual=%b, prev_rdempty=%b, actual_prev_rdempty=%b, effective_prev_rdempty=%b, prev_read_enable=%b, prev_wr_level_0=%b", expected_underflow, read_tr.underflow, prev_rdempty, actual_prev_rdempty, effective_prev_rdempty, prev_read_enable, prev_wr_level_0), UVM_HIGH)
             if (read_tr.underflow != expected_underflow) begin
                 if (underflow_tolerance && use_actual_rtl_state) begin
@@ -451,7 +453,7 @@ class scoreboard extends uvm_scoreboard;
         // Check for any active reset
         `uvm_info(get_type_name(), $sformatf("Checking reset: hw_rst=%b, sw_rst=%b, mem_rst=%b", write_tr.hw_rst, write_tr.sw_rst, write_tr.mem_rst), UVM_HIGH)
         if (!write_tr.hw_rst || write_tr.sw_rst) begin
-            `uvm_info(get_type_name(), "Reset active (hw_rst or sw_rst) — clearing scoreboard state", UVM_MEDIUM)
+            `uvm_info(get_type_name(), "Reset active (hw_rst or sw_rst) - clearing scoreboard state", UVM_MEDIUM)
             reset_active = 1;
             // Clear all expected values and queues
             expected_data_queue.delete();
@@ -660,7 +662,8 @@ class scoreboard extends uvm_scoreboard;
             
                     // Underflow logic with 1-clock delay: underflow goes high in next clock after rdempty=1, read_enable=1, wr_level=0
         // Use actual RTL state for more accurate underflow detection
-        bit effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
+        bit effective_prev_rdempty;
+        effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
         if (effective_prev_rdempty && prev_read_enable && prev_wr_level_0) begin
             expected_underflow = 1'b1;
         end else begin
@@ -673,7 +676,8 @@ class scoreboard extends uvm_scoreboard;
                 skip_read_transaction_check = 0; // Reset flag after skipping
             end else begin
                 // Check for underflow with 1-clock delay behavior
-                bit effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
+                bit effective_prev_rdempty;
+                effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
                 `uvm_info(get_type_name(), $sformatf("Underflow check: expected=%b, actual=%b, prev_rdempty=%b, actual_prev_rdempty=%b, effective_prev_rdempty=%b, prev_read_enable=%b, prev_wr_level_0=%b", expected_underflow, read_tr.underflow, prev_rdempty, actual_prev_rdempty, effective_prev_rdempty, prev_read_enable, prev_wr_level_0), UVM_HIGH)
                             if (read_tr.underflow != expected_underflow) begin
                 if (underflow_tolerance && use_actual_rtl_state) begin
