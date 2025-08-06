@@ -254,8 +254,8 @@ class read_base_sequence extends uvm_sequence #(read_sequence_item);
       `uvm_info(get_type_name(), $sformatf("Reset Phase: %s", req.sprint), UVM_HIGH)
     end
     
-    // Try to read from empty FIFO
-    repeat (30) begin
+    // 30 reads and one more read for underflow
+    repeat (31) begin
       req = read_sequence_item::type_id::create("req");
       start_item(req);
       req.read_enable = 1; // Keep reading even when empty
