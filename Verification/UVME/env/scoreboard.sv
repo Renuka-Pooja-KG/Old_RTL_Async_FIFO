@@ -186,6 +186,8 @@ class scoreboard extends uvm_scoreboard;
     endtask
 
     task process_simultaneous_operations();
+        bit effective_prev_rdempty;  // Variable declaration must be at the beginning of the task
+        
         simultaneous_operation_count++;
         `uvm_info(get_type_name(), $sformatf("Processing simultaneous operations #%0d at time %0t", simultaneous_operation_count, $time), UVM_LOW)
         `uvm_info(get_type_name(), $sformatf("Before operations: wr_level=%d, rd_level=%d, queue_size=%d", expected_wr_level, expected_rd_level, expected_data_queue.size()), UVM_HIGH)
@@ -337,7 +339,6 @@ class scoreboard extends uvm_scoreboard;
         
         // Underflow logic with 1-clock delay: underflow goes high in next clock after rdempty=1, read_enable=1, wr_level=0
         // Use actual RTL state for more accurate underflow detection
-        bit effective_prev_rdempty;
         effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
         if (effective_prev_rdempty && prev_read_enable && prev_wr_level_0) begin
             expected_underflow = 1'b1;
@@ -380,7 +381,6 @@ class scoreboard extends uvm_scoreboard;
         // Check read transaction
         if (read_tr.read_enable && !reset_active) begin
             // Check for underflow with 1-clock delay behavior
-            bit effective_prev_rdempty;
             effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
             `uvm_info(get_type_name(), $sformatf("Underflow check: expected=%b, actual=%b, prev_rdempty=%b, actual_prev_rdempty=%b, effective_prev_rdempty=%b, prev_read_enable=%b, prev_wr_level_0=%b", expected_underflow, read_tr.underflow, prev_rdempty, actual_prev_rdempty, effective_prev_rdempty, prev_read_enable, prev_wr_level_0), UVM_HIGH)
             if (read_tr.underflow != expected_underflow) begin
@@ -600,12 +600,14 @@ class scoreboard extends uvm_scoreboard;
     endtask
 
     task process_read_transaction();
+        bit effective_prev_rdempty;  // Variable declaration must be at the beginning of the task
+        
         `uvm_info(get_type_name(), $sformatf("Processing read transaction at time %0t: %s", $time, read_tr.sprint), UVM_LOW)
         `uvm_info(get_type_name(), $sformatf("Before read: wr_level=%d, rd_level=%d, queue_size=%d", expected_wr_level, expected_rd_level, expected_data_queue.size()), UVM_HIGH)
 
         // Check for any active reset
         if (reset_active) begin
-            `uvm_info(get_type_name(), "Reset active — skipping read check", UVM_MEDIUM)
+            `uvm_info(get_type_name(), "Reset active - skipping read check", UVM_MEDIUM)
             read_tr_available = 0;
             return;
         end
@@ -662,7 +664,6 @@ class scoreboard extends uvm_scoreboard;
             
                     // Underflow logic with 1-clock delay: underflow goes high in next clock after rdempty=1, read_enable=1, wr_level=0
         // Use actual RTL state for more accurate underflow detection
-        bit effective_prev_rdempty;
         effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
         if (effective_prev_rdempty && prev_read_enable && prev_wr_level_0) begin
             expected_underflow = 1'b1;
@@ -676,7 +677,6 @@ class scoreboard extends uvm_scoreboard;
                 skip_read_transaction_check = 0; // Reset flag after skipping
             end else begin
                 // Check for underflow with 1-clock delay behavior
-                bit effective_prev_rdempty;
                 effective_prev_rdempty = use_actual_rtl_state ? actual_prev_rdempty : prev_rdempty;
                 `uvm_info(get_type_name(), $sformatf("Underflow check: expected=%b, actual=%b, prev_rdempty=%b, actual_prev_rdempty=%b, effective_prev_rdempty=%b, prev_read_enable=%b, prev_wr_level_0=%b", expected_underflow, read_tr.underflow, prev_rdempty, actual_prev_rdempty, effective_prev_rdempty, prev_read_enable, prev_wr_level_0), UVM_HIGH)
                             if (read_tr.underflow != expected_underflow) begin
