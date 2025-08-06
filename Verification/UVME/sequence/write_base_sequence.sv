@@ -730,7 +730,7 @@ class write_base_sequence extends uvm_sequence #(write_sequence_item);
     `uvm_info(get_type_name(), $sformatf("De-assert Reset: %s", req.sprint), UVM_HIGH)
     
     // Provide some data for reading, but keep write activity minimal
-    repeat (5) begin
+    repeat (num_transactions) begin
       req = write_sequence_item::type_id::create("req");
       start_item(req);
       req.write_enable = 1; // Enable write to provide data
