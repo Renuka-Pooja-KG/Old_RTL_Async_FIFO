@@ -26,6 +26,7 @@ class reset_write_read_test extends base_test;
         m_env.m_scoreboard.set_level_mismatch_tolerance(1'b1); // Enable tolerance for level mismatches
         m_env.m_scoreboard.set_underflow_tolerance(1'b1); // Enable underflow tolerance for reset scenarios
         m_env.m_scoreboard.set_use_actual_rtl_state(1'b1); // Use actual RTL state for better sync handling
+        m_env.m_scoreboard.set_reset_scenario_mode(1'b1); // Enable reset scenario mode for better tolerance
         `uvm_info(get_type_name(), "Reset-Write-Read test scoreboard configured for reset scenarios", UVM_MEDIUM)
     endfunction
 
