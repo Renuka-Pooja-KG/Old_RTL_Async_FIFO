@@ -132,7 +132,7 @@ class read_base_sequence extends uvm_sequence #(read_sequence_item);
     read_sequence_item req;
        
     // Reset phase - ensure clean FIFO state
-    repeat (4) begin
+    repeat (7) begin
       req = read_sequence_item::type_id::create("req");
       start_item(req);
       req.read_enable = 0; // Keep read disabled during reset
