@@ -773,41 +773,25 @@ class scoreboard extends uvm_scoreboard;
     // Function to control data integrity priority settings
     function void set_data_integrity_priority(bit enable);
         data_integrity_priority = enable;
-        if (get_type_name() != null) begin
-            `uvm_info(get_type_name(), $sformatf("Data integrity priority mode: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
-        end else begin
-            $display("INFO: Data integrity priority mode: %s", enable ? "ENABLED" : "DISABLED");
-        end
+        `uvm_info(get_type_name(), $sformatf("Data integrity priority mode: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
     endfunction
     
     // Function to control level mismatch tolerance
     function void set_level_mismatch_tolerance(bit enable);
         level_mismatch_tolerance = enable;
-        if (get_type_name() != null) begin
-            `uvm_info(get_type_name(), $sformatf("Level mismatch tolerance: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
-        end else begin
-            $display("INFO: Level mismatch tolerance: %s", enable ? "ENABLED" : "DISABLED");
-        end
+        `uvm_info(get_type_name(), $sformatf("Level mismatch tolerance: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
     endfunction
     
     // Function to control use of actual RTL state for prev tracking
     function void set_use_actual_rtl_state(bit enable);
         use_actual_rtl_state = enable;
-        if (get_type_name() != null) begin
-            `uvm_info(get_type_name(), $sformatf("Use actual RTL state for prev tracking: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
-        end else begin
-            $display("INFO: Use actual RTL state for prev tracking: %s", enable ? "ENABLED" : "DISABLED");
-        end
+        `uvm_info(get_type_name(), $sformatf("Use actual RTL state for prev tracking: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
     endfunction
     
     // Function to control underflow tolerance
     function void set_underflow_tolerance(bit enable);
         underflow_tolerance = enable;
-        if (get_type_name() != null) begin
-            `uvm_info(get_type_name(), $sformatf("Underflow tolerance: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
-        end else begin
-            $display("INFO: Underflow tolerance: %s", enable ? "ENABLED" : "DISABLED");
-        end
+        `uvm_info(get_type_name(), $sformatf("Underflow tolerance: %s", enable ? "ENABLED" : "DISABLED"), UVM_MEDIUM)
     endfunction
     
     // Function to get data integrity statistics
