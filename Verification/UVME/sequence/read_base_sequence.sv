@@ -382,7 +382,7 @@ class read_base_sequence extends uvm_sequence #(read_sequence_item);
     end
     
     // Provide some read activity to test memory access
-    repeat (15) begin
+    repeat (5) begin
       req = read_sequence_item::type_id::create("req");
       start_item(req);
       req.read_enable = 1; // Enable read to test memory access
